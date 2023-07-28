@@ -1,0 +1,17 @@
+{
+	"short_name": "picoscratch",
+	"name": "PicoScratch Manager",
+	"start_url": "/",
+	"icons": [
+		{
+			"src": "logo.png",
+			"type": "image/png",
+			"sizes": "200x200"
+		}
+	],
+	"background_color": "#0e0e0e",
+	"display": "standalone",
+	"scope": "/",
+	"theme_color": "#25b0f5",
+	"description": "PicoScratch Manager für Lehrer. Verwalte deine Klassen und Schüler."
+}

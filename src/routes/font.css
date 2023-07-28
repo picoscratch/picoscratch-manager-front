@@ -1,0 +1,12 @@
+@font-face {
+  font-family: "Roboto Round";
+  src: url("$lib/font/Roboto-Round-Regular.eot");
+  src: url("$lib/font/Roboto-Round-Regular.eot?#iefix") format("embedded-opentype"),
+      url("$lib/font/Roboto-Round-Regular.woff2") format("woff2"),
+      url("$lib/font/Roboto-Round-Regular.woff") format("woff"),
+      url("$lib/font/Roboto-Round-Regular.ttf") format("truetype"),
+      url("$lib/font/Roboto-Round-Regular.svg#Roboto-Round-Regular") format("svg");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

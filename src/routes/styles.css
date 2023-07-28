@@ -1,0 +1,67 @@
+@import "./font.css";
+@import "./background-blobs.css";
+
+body {
+	min-height: 100vh;
+	margin: 0;
+	font-family: "Roboto Round";
+	background-color: #0e0e0e;
+	color: white;
+}
+
+button {
+	background-color: #2e2e2e;
+	border-style: solid;
+	border-radius: 5px;
+	border-color: #2e2e2e;
+	border-bottom: 7px solid #0e0e0e;
+	outline: none;
+	color: white;
+	font-size: 1.7rem;
+	height: 55px;
+}
+
+button:active:not(:disabled) {
+  border-bottom-width:4px;
+  position:relative;
+  top:4px;
+}
+
+input:not(input[type="checkbox"]), select {
+	background-color: rgba(29, 29, 29, 0.5);
+	background-image: url($lib/images/noise.png);
+	background-size: contain;
+	backdrop-filter: blur(15px);
+	color: white;
+	border: 2px solid rgba(46, 46, 46, 0.8);
+	border-radius: 10px;
+	/* height: 40px; */
+	font-size: 2.4rem;
+	width: 15ch;
+	font-family: "Roboto Round";
+}
+
+select {
+	font-size: 1.8rem;
+	background-color: #1d1d1d;
+}
+
+.badge {
+	background-color: white;
+	border-radius: 10px;
+	color: black;
+	padding: 5px;
+}
+
+th, td {
+	background-color: rgba(46, 46, 46, 0.8);
+	background-image: url(../noise.png);
+	background-size: contain;
+	backdrop-filter: blur(15px);
+	border-radius: 5px;
+	font-size: 1.6rem;
+	width: 1px;
+	text-align: center;
+	white-space: nowrap;
+	padding: 5px;
+}
