@@ -5,13 +5,24 @@
 	import PersonKick from "svelte-fluentui-icons/icons/PersonArrowRight_Filled.svelte";
 	import PersonDelete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import PersonVerify from "svelte-fluentui-icons/icons/Checkmark_Filled.svelte";
+	import Dismiss from "svelte-fluentui-icons/icons/Dismiss_Filled.svelte";
 	import { ws } from "../../../../wsStore";
 	import { schooldata } from "../../../../stores";
+    import ConfirmDialog from "../../../../dialogs/ConfirmDialog.svelte";
+
+	/** @type {import('./$types').PageData} */
+	export let data: {props: {course: string}};
+
+	$: console.log(data.props.course);
 
 	let absentsShown = false;
-	const courseUUID = $page.params.course;
-	const coursedata = $schooldata.courses.find((c: {uuid: string}) => c.uuid == courseUUID);
+	let courseUUID = data.props.course;
+	let coursedata = $schooldata.courses.find((c: {uuid: string}) => c.uuid == courseUUID);
 	let leaderboard: [{level: number, name: string, percentage: number, status: "offline" | "idle" | "online", uuid: string}];
+	let verifications: [{name: string, uuid: string}];
+	let confirm: ConfirmDialog;
+	$: courseUUID = data.props.course;
+	$: coursedata = $schooldata.courses.find((c: {uuid: string}) => c.uuid == courseUUID);
 
 	$: {
 		console.log($ws);
@@ -20,6 +31,8 @@
 			leaderboard = data.leaderboard;
 		} else if(data.type == "leaderboard") {
 			if(data.course.uuid == courseUUID) leaderboard = data.leaderboard;
+		} else if(data.type == "verifications") {
+			verifications = data.verifications;
 		}
 	}
 </script>
@@ -28,19 +41,33 @@
 	<title>PicoScratch Manager | {coursedata ? coursedata.name : "Kurs"}</title>
 </svelte:head>
 
+<ConfirmDialog bind:this={confirm} />
+
 <!-- <h3>Dies ist das Interface für den Kurs mit der UUID "{$page.params.course}"</h3> -->
 <div style="display: flex; gap: 10px; flex-direction: column;">
 	<div id="coursecontrols">
 		<Card>
 			<h2 style="margin: 0; font-size: 1.9rem">Steuerung</h2>
 			<div style="display: flex; gap: 10px;">
-				<button>Start</button>
+				<button on:click={() => {
+					ws.send({
+						type: "startCourse",
+						uuid: courseUUID
+					})
+				}}>Start</button>
 				<button style="display: flex; flex-direction: column; gap: 3px;">
-					<div class="traffic-red traffic"></div>
-					<div class="traffic-green traffic trafficOff"></div>
+					<div class="traffic-red traffic {coursedata?.isRunning ? "trafficOff" : ""}"></div>
+					<div class="traffic-green traffic {coursedata?.isRunning ? "" : "trafficOff"}"></div>
 				</button>
-				<button>Stop</button>
-				<button>Registr. deaktiviert</button>
+				<button on:click={() => {
+					ws.send({
+						type: "stopCourse",
+						uuid: courseUUID
+					})
+				}}>Stop</button>
+				<button on:click={() => {
+					ws.send({ type: "allowRegister", course: courseUUID, allow: !(coursedata?.allowRegister) });
+				}}>Registr. {coursedata?.allowRegister ? "aktiviert" : "deaktiviert"}</button>
 			</div>
 		</Card>
 		<Card>
@@ -65,8 +92,29 @@
 			</div>
 		</Card>
 		<Card>
-			<h2 style="margin: 0; font-size: 1.9rem">Aufgabenüberprüfung <span class="badge">0</span></h2>
-			<div style="display: flex; flex-direction: column;">
+			<h2 style="margin: 0; font-size: 1.9rem">Aufgabenüberprüfung <span class="badge">{verifications ? verifications.length : "0"}</span></h2>
+			<div style="display: flex; flex-direction: column; padding-top: 10px;">
+				{#if verifications}
+					{#each verifications as verification}
+						<div style="display: flex;">
+							<Profile username={verification.name} />
+							<div style="margin-left: auto;">
+								<button on:click={async () => {
+									const confirmation = await confirm.confirm(verification.name + " aus der Aufgabe rauswerfen?", { subtext: "Der Schüler wird die Aufgabe erneut machen müssen." })
+									if(!confirmation) return;
+									ws.send({ type: "dismiss", uuid: verification.uuid, course: courseUUID });
+								}}>
+									<Dismiss size=40 color="#F55050" />
+								</button>
+								<button on:click={() => {
+									ws.send({ type: "verify", uuid: verification.uuid, course: courseUUID });
+								}}>
+									<PersonVerify size=40 color="#50F550" />
+								</button>
+							</div>
+						</div>
+					{/each}
+				{/if}
 			</div>
 		</Card>
 	</div>
@@ -93,29 +141,30 @@
 							<td>{user.level}</td>
 							<td>{user.percentage}%</td>
 							<td>
-								<button title="{user.name} rauswerfen">
-									<PersonKick on:click={() => {
-										ws.send({
-											type: "kick",
-											uuid: user.uuid
-										})
-									}} size=40 />
+								<button title="{user.name} rauswerfen" on:click={() => {
+									ws.send({
+										type: "kick",
+										uuid: user.uuid
+									})
+								}}>
+									<PersonKick size=40 />
 								</button>
-								<button title="{user.name} löschen">
-									<PersonDelete on:click={() => {
-										ws.send({
-											type: "delete",
-											uuid: user.uuid,
-											courseUUID
-										})
-									}} size=40 color="#A03030" />
+								<button title="{user.name} löschen" on:click={async () => {
+									if(!await confirm.confirm(user.name + " löschen?", { subtext: "Der Schüler wird von der Rangliste entfernt und muss alle Aufgaben erneut machen. Dies kann nicht rückgängig gemacht werden!" })) return;
+									ws.send({
+										type: "delete",
+										uuid: user.uuid,
+										courseUUID
+									})
+								}}>
+									<PersonDelete size=40 color="#A03030" />
 								</button>
-								<button title="{user.name} löschen">
+								<!-- <button title="{user.name} verifizieren">
 									<PersonVerify on:click={() => {
 										if(!confirm("Are you sure you want to use this failsafe? If the student did not request this, who knows what will happen. The server might crash.")) return;
 										ws.send(JSON.stringify({ type: "verify", uuid: user.uuid, course: courseUUID }));
 									}} size=40 color="#30A030" />
-								</button>
+								</button> -->
 						</tr>
 					{/each}
 				{/if}

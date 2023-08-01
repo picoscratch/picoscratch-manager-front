@@ -10,6 +10,10 @@ export async function load({ params }) {
 			type: "getCourseInfo",
 			uuid: params.course
 		})
+		ws.send({
+			type: "getVerifications",
+			course: params.course
+		})
 	}
 	if(sock.readyState == 0) {
 		sock.addEventListener("open", () => {

@@ -37,14 +37,38 @@ if(browser) {
 						schooldata.set(sdata);
 					}
 				}
-				if(packet.type == "renameCourse") {
-					const sdata = get(schooldata);
-					sdata.courses = sdata.courses.map((c) => {
-						if(c.uuid == packet.uuid) c.name = packet.name;
-						return c;
-					});
-					schooldata.set(sdata);
-				}
+			}
+			if(packet.type == "renameCourse") {
+				const sdata = get(schooldata);
+				sdata.courses = sdata.courses.map((c) => {
+					if(c.uuid == packet.uuid) c.name = packet.name;
+					return c;
+				});
+				schooldata.set(sdata);
+			} else if(packet.type == "startCourse") {
+				const sdata = get(schooldata);
+				console.log("AA");
+				
+				sdata.courses = sdata.courses.map((c) => {
+					console.log(c.uuid, packet.course.uuid);
+					if(c.uuid == packet.course.uuid) c.isRunning = true;
+					return c;
+				});
+				schooldata.set(sdata);
+			} else if(packet.type == "stopCourse") {
+				const sdata = get(schooldata);
+				sdata.courses = sdata.courses.map((c) => {
+					if(c.uuid == packet.course.uuid) c.isRunning = false;
+					return c;
+				});
+				schooldata.set(sdata);
+			} else if(packet.type == "allowRegister") {
+				const sdata = get(schooldata);
+				sdata.courses = sdata.courses.map((c) => {
+					if(c.uuid == packet.course) c.allowRegister = packet.allow;
+					return c;
+				});
+				schooldata.set(sdata);
 			}
 			messageStore.set(packet);
 		} catch(e) {

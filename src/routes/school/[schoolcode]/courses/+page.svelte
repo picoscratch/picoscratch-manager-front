@@ -5,7 +5,6 @@
 	import Delete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import { myProfile, schooldata } from "../../../stores";
 	import { ws } from "../../../wsStore";
-	import { get } from "svelte/store";
 	import PromptDialog from "../../../dialogs/PromptDialog.svelte";
 	import ConfirmDialog from "../../../dialogs/ConfirmDialog.svelte";
 
@@ -30,12 +29,6 @@
 						const newName = await prompt.prompt("Kurs " + course.name + " umbennenen", { value: course.name, placeholder: "Kursname" });
 						if(!newName) return;
 						ws.send({ type: "renameCourse", uuid: course.uuid, name: newName })
-						const sdata = get(schooldata);
-						sdata.courses = sdata.courses.map((c) => {
-							if(c.uuid == course.uuid) c.name = newName;
-							return c;
-						});
-						schooldata.set(sdata);
 					}}>
 						<ChangeName size="40" />
 					</button>

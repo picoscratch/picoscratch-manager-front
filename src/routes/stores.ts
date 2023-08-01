@@ -23,7 +23,12 @@ export const ROOT = "/";
 export const schooldata = writable({
 	channel: "",
 	code: "",
-	courses: [{name: "", uuid: ""}],
+	courses: [{
+		name: "",
+		uuid: "",
+		allowRegister: false,
+		isRunning: false
+	}],
 	createdAt: "",
 	deletedAt: null,
 	isDemo: true,

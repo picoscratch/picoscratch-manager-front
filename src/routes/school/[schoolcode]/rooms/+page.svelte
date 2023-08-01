@@ -6,6 +6,7 @@
 	import { ws } from "../../../wsStore";
 	import PromptDialog from "../../../dialogs/PromptDialog.svelte";
 	import ConfirmDialog from "../../../dialogs/ConfirmDialog.svelte";
+	import { get } from "svelte/store";
 
 	let prompt: PromptDialog;
 	let confirm: ConfirmDialog;
@@ -19,6 +20,12 @@
 			uuid: room.uuid,
 			course: newId
 		});
+		const sdata = get(schooldata);
+		sdata.rooms = sdata.rooms.map((r) => {
+			if(r.uuid == room.uuid) r.courseUuid = newId;
+			return r;
+		});
+		schooldata.set(sdata);
 	}
 </script>
 
