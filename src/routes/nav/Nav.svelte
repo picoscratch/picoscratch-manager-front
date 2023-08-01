@@ -1,8 +1,14 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import NavItem from "./NavItem.svelte";
-  import { navItems, myProfile, schooldata } from "../stores";
+  import { myProfile, schooldata } from "../stores";
   import { onDestroy } from "svelte";
+  import SettingsIcon from "svelte-fluentui-icons/icons/Settings_Filled.svelte";
+  import SignOutIcon from "svelte-fluentui-icons/icons/SignOut_Filled.svelte";
+  import PersonIcon from "svelte-fluentui-icons/icons/Person_Filled.svelte";
+  import PeopleTeamIcon from "svelte-fluentui-icons/icons/PeopleTeam_Filled.svelte";
+  import RoomIcon from "svelte-fluentui-icons/icons/ConferenceRoom_Filled.svelte";
+  import HatGraduationIcon from "svelte-fluentui-icons/icons/HatGraduation_Filled.svelte";
   let isAdmin = false;
   let navPosition = "open";
   $: {
@@ -57,11 +63,23 @@
 </script>
 
 <div id="nav" class={navPosition}>
-  {#each navItems as item}
+  <!-- {#each navItems as item}
     {#if !(item.adminOnly && !isAdmin)}
       <NavItem {...item} />
     {/if}
-  {/each}
+  {/each} -->
+  <NavItem url="teachers">
+    <PeopleTeamIcon />
+    Lehrer
+  </NavItem>
+  <NavItem url="rooms">
+    <RoomIcon />
+    Räume
+  </NavItem>
+  <NavItem url="courses">
+    <HatGraduationIcon />
+    Kurse
+  </NavItem>
   {#if schooldata != undefined}
     {#each $schooldata.courses as course}
       <NavItem arrow={true} text={course.name} url={"course/" + course.uuid} prefetch={false} />
@@ -69,7 +87,18 @@
   {/if}
   <!-- div is used to get the navitems after it to the bottom -->
   <div id="nav-bottom"></div>
-  <NavItem text="Log out" url="logout" />
+  <NavItem url="profile">
+    <PersonIcon />
+    Profil
+  </NavItem>
+  <NavItem url="settings">
+    <SettingsIcon />
+    Einstellungen
+  </NavItem>
+  <NavItem url="logout">
+    <SignOutIcon />
+    Abmelden
+  </NavItem>
 </div>
 
 <style>

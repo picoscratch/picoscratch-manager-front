@@ -1,20 +1,20 @@
 import { writable } from "svelte/store";
 
-export const navItems = [
-	{
-		text: "Lehrer",
-		url: "teachers",
-		adminOnly: false
-	},
-	{
-		text: "Räume",
-		url: "rooms"
-	},
-	{
-		text: "Kurse",
-		url: "courses"
-	}
-];
+// export const navItems = [
+// 	{
+// 		text: "Lehrer",
+// 		url: "teachers",
+// 		adminOnly: false
+// 	},
+// 	{
+// 		text: "Räume",
+// 		url: "rooms"
+// 	},
+// 	{
+// 		text: "Kurse",
+// 		url: "courses"
+// 	}
+// ];
 
 export const loggedIn = writable(false);
 export const SERVER = "https://server.picoscratch.de/api/";

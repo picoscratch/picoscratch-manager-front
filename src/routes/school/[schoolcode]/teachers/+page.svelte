@@ -6,6 +6,14 @@
 	import Delete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import { myProfile, schooldata } from "../../../stores";
 	import { ws } from "../../../wsStore";
+	import Dialog from "../../../dialogs/Dialog.svelte";
+	import PromptDialog from "../../../dialogs/PromptDialog.svelte";
+	import ConfirmDialog from "../../../dialogs/ConfirmDialog.svelte";
+	import DoublePromptDialog from "../../../dialogs/DoublePromptDialog.svelte";
+
+	let prompt: PromptDialog;
+	let prompt2: DoublePromptDialog;
+	let confirm: ConfirmDialog;
 
 	$: {
 		const packet = $ws as any;
@@ -18,21 +26,29 @@
 	}
 </script>
 
+<svelte:head>
+	<title>PicoScratch Manager | Lehrer</title>
+</svelte:head>
+
+<PromptDialog bind:this={prompt} />
+<DoublePromptDialog bind:this={prompt2} />
+<ConfirmDialog bind:this={confirm} />
+
 <div>
 	{#each $schooldata.teachers as teacher}
 		<Card>
 			<Profile username={teacher.name} />
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
-					<button on:click={() => {
-						const newPw = prompt("Neues Passwort:");
+					<button on:click={async () => {
+						const newPw = await prompt.prompt("Passwort für " + teacher.name + " ändern", { placeholder: "Passwort", type: "password" });
 						if(!newPw) return;
 						ws.send({ type: "changeTeacherPassword", uuid: teacher.uuid, password: newPw })
 					}}>
 						<ChangePassword size="40" />
 					</button>
-					<button on:click={() => {
-						if(!confirm("Soll der Lehrer wirklich gelöscht werden?")) return;
+					<button on:click={async () => {
+						if(!await confirm.confirm("Soll der Lehrer wirklich gelöscht werden?", { subtext: "Dies kann nicht rückgängig gemacht werden!" })) return;
 						ws.send({ type: "deleteTeacher", uuid: teacher.uuid })
 					}}>
 						<Delete size="40" color="#A03030" />
@@ -50,7 +66,11 @@
 	{#if $myProfile.username.toLowerCase() == "admin"}
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-				<button on:click={() => alert("Noch nicht implementiert, bitte alten PSM nutzen.")}>
+				<button on:click={async () => {
+					const newTeacher = await prompt2.prompt("Neuen Lehrer hinzufügen", { placeholder1: "Name", placeholder2: "Passwort", type2: "password" });
+					if(!newTeacher) return;
+					ws.send({ type: "addTeacher", username: newTeacher[0], password: newTeacher[1] })
+				}}>
 					<Add_Filled size="40" />
 				</button>
 			</div>

@@ -24,6 +24,10 @@
 	}
 </script>
 
+<svelte:head>
+	<title>PicoScratch Manager | {coursedata ? coursedata.name : "Kurs"}</title>
+</svelte:head>
+
 <!-- <h3>Dies ist das Interface für den Kurs mit der UUID "{$page.params.course}"</h3> -->
 <div style="display: flex; gap: 10px; flex-direction: column;">
 	<div id="coursecontrols">

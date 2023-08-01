@@ -27,7 +27,7 @@
 		{#if arrow}
 			<img src={arrowPic} alt="->" />
 		{/if}
-		{text}
+		<slot>{text}</slot>
 	</h3>
 </a>
 
@@ -44,6 +44,9 @@
 		font-size: 1.4rem;
 		padding: 5px;
 		border-radius: 5px;
+		display: flex;
+		align-items: center;
+		gap: 5px;
 	}
 
 	.active {

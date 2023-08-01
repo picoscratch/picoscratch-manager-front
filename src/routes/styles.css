@@ -55,7 +55,7 @@ select {
 
 th, td {
 	background-color: rgba(46, 46, 46, 0.8);
-	background-image: url(../noise.png);
+	background-image: url($lib/images/noise.png);
 	background-size: contain;
 	backdrop-filter: blur(15px);
 	border-radius: 5px;

@@ -1,12 +1,24 @@
-<script>
+<script lang="ts">
   import Card from "../../../Card.svelte";
 	import Add_Filled from "svelte-fluentui-icons/icons/Add_Filled.svelte";
 	import ChangeName from "svelte-fluentui-icons/icons/Rename_Filled.svelte";
 	import Delete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import { myProfile, schooldata } from "../../../stores";
-    import { ws } from "../../../wsStore";
-    import { get } from "svelte/store";
+	import { ws } from "../../../wsStore";
+	import { get } from "svelte/store";
+	import PromptDialog from "../../../dialogs/PromptDialog.svelte";
+	import ConfirmDialog from "../../../dialogs/ConfirmDialog.svelte";
+
+	let prompt: PromptDialog;
+	let confirm: ConfirmDialog;
 </script>
+
+<svelte:head>
+	<title>PicoScratch Manager | Kurse</title>
+</svelte:head>
+
+<PromptDialog bind:this={prompt} />
+<ConfirmDialog bind:this={confirm} />
 
 <div>
 	{#each $schooldata.courses as course}
@@ -14,8 +26,8 @@
 			<h2 style="margin: 0; font-size: 1.9rem;">{course.name}</h2>
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
-					<button on:click={() => {
-						const newName = prompt("Neuer Kursname:");
+					<button on:click={async () => {
+						const newName = await prompt.prompt("Kurs " + course.name + " umbennenen", { value: course.name, placeholder: "Kursname" });
 						if(!newName) return;
 						ws.send({ type: "renameCourse", uuid: course.uuid, name: newName })
 						const sdata = get(schooldata);
@@ -27,9 +39,9 @@
 					}}>
 						<ChangeName size="40" />
 					</button>
-					<button on:click={() => {
-						if(!confirm("Soll der Kurs wirklich gelöscht werden?")) return;
-						ws.send({ type: "deleteTeacher", uuid: course.uuid })
+					<button on:click={async () => {
+						if(!await confirm.confirm("Soll der Kurs wirklich gelöscht werden?")) return;
+						ws.send({ type: "deleteCourse", uuid: course.uuid })
 					}}>
 						<Delete size="40" color="#A03030" />
 					</button>
@@ -46,7 +58,11 @@
 	{#if $myProfile.username.toLowerCase() == "admin"}
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-				<button on:click={() => alert("Noch nicht implementiert, bitte alten PSM nutzen.")}>
+				<button on:click={async () => {
+					const name = await prompt.prompt("Neuen Kurs erstellen", { placeholder: "Kursname" });
+					if(!name) return;
+					ws.send({ type: "addCourse", name });
+				}}>
 					<Add_Filled size="40" />
 				</button>
 			</div>

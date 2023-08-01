@@ -38,8 +38,8 @@
 	});
 </script>
 <svelte:head>
-	<title>Home</title>
-	<meta name="description" content="Svelte demo app" />
+	<title>PicoScratch Manager, das Lehrerportal von PicoScratch.</title>
+	<meta name="description" content="Der PicoScratch Manager ermöglicht Lehrer, die Kurse ihrer Schule zu verwalten." />
 </svelte:head>
 
 <div class="content">

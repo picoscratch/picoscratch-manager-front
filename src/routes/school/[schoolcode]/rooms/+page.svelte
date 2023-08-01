@@ -4,6 +4,11 @@
 	import Delete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import { myProfile, schooldata } from "../../../stores";
 	import { ws } from "../../../wsStore";
+	import PromptDialog from "../../../dialogs/PromptDialog.svelte";
+	import ConfirmDialog from "../../../dialogs/ConfirmDialog.svelte";
+
+	let prompt: PromptDialog;
+	let confirm: ConfirmDialog;
 
 	function selectChange(e: Event, room: any) {
 		if(!e.target) return;
@@ -16,6 +21,13 @@
 		});
 	}
 </script>
+
+<svelte:head>
+	<title>PicoScratch Manager | Räume</title>
+</svelte:head>
+
+<PromptDialog bind:this={prompt} />
+<ConfirmDialog bind:this={confirm} />
 
 <div>
 	{#each $schooldata.rooms as room}
@@ -31,8 +43,8 @@
 			</select>
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
-					<button on:click={() => {
-						if(!confirm("Soll der Lehrer wirklich gelöscht werden?")) return;
+					<button on:click={async () => {
+						if(!await confirm.confirm("Soll der Raum wirklich gelöscht werden?")) return;
 						ws.send({ type: "deleteRoom", uuid: room.uuid })
 					}}>
 						<Delete size="40" color="#A03030" />
@@ -50,7 +62,11 @@
 	{#if $myProfile.username.toLowerCase() == "admin"}
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
-				<button on:click={() => alert("Noch nicht implementiert, bitte alten PSM nutzen.")}>
+				<button on:click={async () => {
+					const newRoom = await prompt.prompt("Neuen Raum erstellen", { placeholder: "PC Raum" });
+					if(!newRoom) return;
+					ws.send({ type: "addRoom", name: newRoom });
+				}}>
 					<Add_Filled size="40" />
 				</button>
 			</div>

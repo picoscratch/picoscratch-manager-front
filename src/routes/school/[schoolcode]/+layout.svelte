@@ -30,6 +30,10 @@
 	})
 </script>
 
+<svelte:head>
+	<meta name="robots" content="noindex">
+</svelte:head>
+
 <div class="app">
 	{#if loggedIn}
 		<Header />

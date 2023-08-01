@@ -5,7 +5,7 @@
 <style>
 	div {
 		background-color: rgba(29, 29, 29, 0.5);
-		/* background-image: url("$lib/images/noise.png"); */
+		background-image: url("$lib/images/noise.png");
 		background-size: contain;
 		backdrop-filter: blur(15px);
 		padding: 10px;
