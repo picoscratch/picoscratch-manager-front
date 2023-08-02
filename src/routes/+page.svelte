@@ -52,6 +52,7 @@
 		<h2>School code</h2>
 		<input type="text" id="code" maxlength="7" contenteditable bind:value={code}>
 		<button on:click={login}>Login</button>
+		<button on:click={() => location.href = "/register"}>Register free demo</button>
 	{/if}
 </div>
 
