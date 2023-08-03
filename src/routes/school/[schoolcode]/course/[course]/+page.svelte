@@ -6,9 +6,10 @@
 	import PersonDelete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import PersonVerify from "svelte-fluentui-icons/icons/Checkmark_Filled.svelte";
 	import Dismiss from "svelte-fluentui-icons/icons/Dismiss_Filled.svelte";
+	import CSVIcon from "svelte-fluentui-icons/icons/DocumentTable_Filled.svelte";
 	import { ws } from "../../../../wsStore";
 	import { schooldata } from "../../../../stores";
-    import ConfirmDialog from "../../../../dialogs/ConfirmDialog.svelte";
+	import ConfirmDialog from "../../../../dialogs/ConfirmDialog.svelte";
 
 	/** @type {import('./$types').PageData} */
 	export let data: {props: {course: string}};
@@ -120,7 +121,25 @@
 	</div>
 	<div id="leaderboard">
 		<Card>
-			<h2 style="margin: 0; font-size: 1.9rem;">Rangliste</h2>
+			<div style="display: flex; align-items: center; justify-content: space-between;">
+				<h2 style="margin: 0; font-size: 1.9rem;">Rangliste</h2>
+				<button on:click={() => {
+					const csv = ["Platz,Name,Übung,Quiz %"];
+					leaderboard.forEach((user, index) => {
+						csv.push(`${index + 1},${user.name},${user.level},${user.percentage}%`);
+					});
+					// download
+					const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+					const url = window.URL.createObjectURL(blob);
+					const a = document.createElement("a");
+					a.href = url;
+					a.download = coursedata?.name + ".csv";
+					a.click();
+					window.URL.revokeObjectURL(url);
+				}}>
+					<CSVIcon size=40 />
+				</button>
+			</div>
 			<table>
 				<tr>
 					<th>Platz</th>
