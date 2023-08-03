@@ -14,12 +14,36 @@ button {
 	border-style: solid;
 	border-radius: 5px;
 	border-color: #2e2e2e;
-	border-bottom: 7px solid #0e0e0e;
+	border-bottom: 7px solid #242424;
 	outline: none;
 	color: white;
 	font-size: 1.7rem;
 	height: 55px;
 }
+
+.btn-primary {
+	background-color: #25b0f5;
+	border-style: solid;
+	border-radius: 5px;
+	border-color: #25b0f5;
+	border-bottom: 7px solid #1b80b3;
+	outline: none;
+	color: black;
+	font-size: 1.7rem;
+	height: 55px;
+}
+
+/* .btn-secondary {
+	background-color: #2e2e2e;
+	border-style: solid;
+	border-radius: 5px;
+	border-color: #2e2e2e;
+	border-bottom: 7px solid #242424;
+	outline: none;
+	color: white;
+	font-size: 1.7rem;
+	height: 55px;
+} */
 
 button:active:not(:disabled) {
   border-bottom-width:4px;

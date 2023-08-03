@@ -82,7 +82,7 @@
 		<input type="text" id="username" contenteditable placeholder="Benutzername" bind:value={username} style="margin-bottom: 5px;">
 		<input type="password" id="password" contenteditable placeholder="Passwort" bind:value={password}>
 		<div>
-			<button on:click={login}>Login</button>
+			<button on:click={login} class="btn-primary">Login</button>
 			<button on:click={switchSchool}>Switch school</button>
 		</div>
 	{/if}
