@@ -26,10 +26,20 @@
 		border: 2px solid rgba(46, 46, 46, 0.8);
 		border-radius: 10px;
 		color: white;
+		animation: popIn 0.3s cubic-bezier(1,0,0,1);
 	}
 
 	dialog::backdrop {
 		background-color: rgba(0, 0, 0, 0.5);
 		backdrop-filter: blur(5px);
+	}
+
+	@keyframes popIn {
+		0% {
+			transform: scale(0.3);
+		}
+		100% {
+			transform: scale(1);
+		}
 	}
 </style>
