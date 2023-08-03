@@ -41,22 +41,14 @@
 		loading = false;
 
 		const lsusername = localStorage.getItem("username");
-		const lspassword = localStorage.getItem("password");
-		if(lsusername && lspassword) {
+		if(lsusername) {
 			username = lsusername;
-			password = lspassword;
-			loading = true;
-			setTimeout(() => {
-				login();
-				loading = false;
-			}, 500);
 		}
 	})
 
 	function switchSchool() {
 		localStorage.removeItem("schoolcode");
 		localStorage.removeItem("username");
-		localStorage.removeItem("password");
 		goto("/");
 	}
 
@@ -74,7 +66,6 @@
 			username
 		});
 		localStorage.setItem("username", username);
-		localStorage.setItem("password", password);
 	})()
 </script>
 <svelte:head>
