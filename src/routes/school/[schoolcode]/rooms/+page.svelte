@@ -23,7 +23,7 @@
 		const sdata = get(schooldata);
 		sdata.rooms = sdata.rooms.map((r) => {
 			if(r.uuid == room.uuid) r.courseUuid = newId;
-			return r;
+			return r;	
 		});
 		schooldata.set(sdata);
 	}
@@ -42,7 +42,7 @@
 			<h2 style="margin: 0; font-size: 1.9rem;">{room.name}</h2>
 			<select on:change={(e) => {
 				selectChange(e, room);
-			}} value={room.courseUuid}>
+			}} value={room.courseUuid || "nocourse"}>
 				<option value="nocourse">Kein Kurs</option>
 				{#each $schooldata.courses as course}
 					<option value={course.uuid}>{course.name}</option>
