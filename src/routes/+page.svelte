@@ -50,7 +50,9 @@
 		<p>Error! Please try again later.</p>
 	{:else}
 		<h2>School code</h2>
-		<input type="text" id="code" maxlength="7" contenteditable bind:value={code}>
+		<input type="text" id="code" maxlength="7" contenteditable bind:value={code} on:keyup={(e) => {
+			if(e.key == "Enter") login();
+		}}>
 		<button on:click={login} class="btn-primary">Login</button>
 		<button on:click={() => location.href = "/register"}>Register free demo</button>
 	{/if}

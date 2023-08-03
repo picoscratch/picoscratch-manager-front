@@ -74,7 +74,9 @@
 	<div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
 		<h2 style="margin: 0; font-size: 2rem; text-align: center;">{title}</h2>
 		<input type={type1} placeholder={placeholder1} value={value1} bind:this={input1}>
-		<input type={type2} placeholder={placeholder2} value={value2} bind:this={input2}>
+		<input type={type2} placeholder={placeholder2} value={value2} bind:this={input2} on:keyup={(e) => {
+			if(e.key == "Enter") submitValue();
+		}}>
 		<div style="display: flex; gap: 10px;">
 			<button on:click={submitValue}>{submit}</button>
 			<button on:click={cancelSubmit}>{cancel}</button>

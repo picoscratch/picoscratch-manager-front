@@ -80,7 +80,9 @@
 	{:else}
 		<h2>{schooldata.name}</h2>
 		<input type="text" id="username" contenteditable placeholder="Benutzername" bind:value={username} style="margin-bottom: 5px;">
-		<input type="password" id="password" contenteditable placeholder="Passwort" bind:value={password}>
+		<input type="password" id="password" contenteditable placeholder="Passwort" bind:value={password} on:keyup={(e) => {
+			if(e.key == "Enter") login();
+		}}>
 		<div>
 			<button on:click={login} class="btn-primary">Login</button>
 			<button on:click={switchSchool}>Switch school</button>
