@@ -7,6 +7,7 @@
 	import PersonVerify from "svelte-fluentui-icons/icons/Checkmark_Filled.svelte";
 	import Dismiss from "svelte-fluentui-icons/icons/Dismiss_Filled.svelte";
 	import CSVIcon from "svelte-fluentui-icons/icons/DocumentTable_Filled.svelte";
+	import NewIcon from "svelte-fluentui-icons/icons/New_Filled.svelte";
 	import { ws } from "../../../../wsStore";
 	import { schooldata } from "../../../../stores";
 	import ConfirmDialog from "../../../../dialogs/ConfirmDialog.svelte";
@@ -115,6 +116,27 @@
 							</div>
 						</div>
 					{/each}
+				{/if}
+			</div>
+		</Card>
+		<Card>
+			<h2 style="margin: 0; font-size: 1.9rem">
+				Daten
+				<NewIcon style="width: 30px; height: 30px; transform: rotate(90deg) translateY(10px) translateX(-5px);" />
+				<style>
+
+				</style>
+			</h2>
+			<div style="display: flex; flex-direction: column; padding-top: 10px;">
+				{#if leaderboard}
+					<span>Quiz avg.: {Math.floor(leaderboard.map(s => {
+						return s.percentage;
+					}).reduce((a, b) => a + b, 0) / leaderboard.length)}%</span>
+					<span>Avg. level: {Math.floor(leaderboard.map(s => {
+						return s.level;
+					}).reduce((a, b) => a + b, 0) / leaderboard.length)}</span>
+				{:else}
+					<p>loading...</p>
 				{/if}
 			</div>
 		</Card>
