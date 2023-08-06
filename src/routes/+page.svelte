@@ -37,6 +37,7 @@
 		}
 	});
 </script>
+
 <svelte:head>
 	<title>PicoScratch Manager, das Lehrerportal von PicoScratch.</title>
 	<meta name="description" content="Der PicoScratch Manager ermöglicht Lehrer, die Kurse ihrer Schule zu verwalten." />

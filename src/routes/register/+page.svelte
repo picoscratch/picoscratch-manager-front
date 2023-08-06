@@ -13,6 +13,11 @@
 	let state: "form" | "loading" | "finished" = "form";
 </script>
 
+<svelte:head>
+	<title>PicoScratch Demo registrieren</title>
+	<meta name="description" content="Eine PicoScratch Demoversion registrieren um PicoScratch für Ihre Schule kostenlos auszuprobieren" />
+</svelte:head>
+
 <div style="display: flex; align-items: center; flex-direction: column;">
 	<img src={picoscratch_logo} alt="PicoScratch Logo" width="400rem" style="margin: 20px; border-radius: 10px;" class="logo">
 	{#if state == "form" || state == "loading"}
