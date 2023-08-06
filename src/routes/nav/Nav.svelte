@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import NavItem from "./NavItem.svelte";
-  import { myProfile, schooldata } from "../stores";
+  import { myProfile, schooldata, navPosition } from "../stores";
   import { onDestroy } from "svelte";
   import SettingsIcon from "svelte-fluentui-icons/icons/Settings_Filled.svelte";
   import SignOutIcon from "svelte-fluentui-icons/icons/SignOut_Filled.svelte";
@@ -10,7 +10,7 @@
   import RoomIcon from "svelte-fluentui-icons/icons/ConferenceRoom_Filled.svelte";
   import HatGraduationIcon from "svelte-fluentui-icons/icons/HatGraduation_Filled.svelte";
   let isAdmin = false;
-  let navPosition = "open";
+  // let navPosition = "open";
   $: {
     if($myProfile.username.toLowerCase() == "admin") {
       isAdmin = true;
@@ -19,50 +19,56 @@
     }
   }
 
-  if(window.innerWidth < 900) {
-    console.log("mobile");
-    let touchendX: number;
-    let touchstartX: number;
-    let touchendY: number;
-    let touchstartY: number;
+  // if(window.innerWidth < 900) {
+  //   console.log("mobile");
+  //   let touchendX: number;
+  //   let touchstartX: number;
+  //   let touchendY: number;
+  //   let touchstartY: number;
 
-    function handleTouchStart(e: TouchEvent) {
-      touchstartX = e.changedTouches[0].screenX;
-      touchstartY = e.changedTouches[0].screenY;
-    }
+  //   function handleTouchStart(e: TouchEvent) {
+  //     touchstartX = e.changedTouches[0].screenX;
+  //     touchstartY = e.changedTouches[0].screenY;
+  //   }
 
-    function handleTouchEnd(e: TouchEvent) {
-      touchendX = e.changedTouches[0].screenX;
-      touchendY = e.changedTouches[0].screenY;
-      handleGesture();
-    }
+  //   function handleTouchEnd(e: TouchEvent) {
+  //     touchendX = e.changedTouches[0].screenX;
+  //     touchendY = e.changedTouches[0].screenY;
+  //     handleGesture();
+  //   }
 
-    window.addEventListener("touchstart", handleTouchStart);
+  //   window.addEventListener("touchstart", handleTouchStart);
 
-    window.addEventListener("touchend", handleTouchEnd);
+  //   window.addEventListener("touchend", handleTouchEnd);
 
 
-    async function handleGesture() {
-      if(touchendX < touchstartX) {
-        navPosition = "closing";
-        await new Promise(r => setTimeout(r, 800));
-        navPosition = "closed";
-      }
+  //   async function handleGesture() {
+  //     if(touchendX < touchstartX) {
+  //       navPosition = "closing";
+  //       await new Promise(r => setTimeout(r, 800));
+  //       navPosition = "closed";
+  //     }
 
-      if(touchendX > touchstartX) {
-        navPosition = "open";
-      }
-    }
+  //     if(touchendX > touchstartX) {
+  //       navPosition = "open";
+  //     }
+  //   }
 
-    onDestroy(() => {
-      window.removeEventListener("touchstart", handleTouchStart);
+  //   onDestroy(() => {
+  //     window.removeEventListener("touchstart", handleTouchStart);
 
-      window.removeEventListener("touchend", handleTouchEnd);
-    })
-  }
+  //     window.removeEventListener("touchend", handleTouchEnd);
+  //   })
+  // }
 </script>
 
-<div id="nav" class={navPosition}>
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-static-element-interactions -->
+<div id="nav" class={$navPosition} on:click={async () => {
+  $navPosition = "closing";
+  await new Promise(r => setTimeout(r, 800));
+  $navPosition = "closed";
+}}>
   <!-- {#each navItems as item}
     {#if !(item.adminOnly && !isAdmin)}
       <NavItem {...item} />

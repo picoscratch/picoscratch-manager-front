@@ -16,6 +16,7 @@ import { writable } from "svelte/store";
 // 	}
 // ];
 
+export const navPosition = writable("open");
 export const loggedIn = writable(false);
 export const SERVER = "https://server.picoscratch.de/api/";
 export const WS_SERVER = "wss://server.picoscratch.de";
