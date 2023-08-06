@@ -141,7 +141,7 @@
 			</div>
 		</Card>
 	</div>
-	<div id="leaderboard">
+	<div id="leaderboard" style="overflow-y: hidden; max-width: 100vw;">
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: space-between;">
 				<h2 style="margin: 0; font-size: 1.9rem;">Rangliste</h2>
