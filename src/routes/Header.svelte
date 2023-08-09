@@ -55,7 +55,7 @@
 	}
 
 	.corner img {
-		width: 15em;
+		width: 14em;
 		border-radius: 10px;
 		object-fit: contain;
 	}
