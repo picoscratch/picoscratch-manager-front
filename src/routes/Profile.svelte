@@ -7,7 +7,7 @@
 <h2>
 	<!-- we dont want to blow up phones -->
 	{#if window.innerWidth > window.innerHeight}
-		<img src="https://api.dicebear.com/6.x/thumbs/svg?seed={username}" id="user-profile" width="35px" height="35px" alt="">
+		<img src="https://avatar.picoscratch.de/?seed={username}" id="user-profile" width="35px" height="35px" alt="">
 	{/if}
 	{#if status != null}
 		{#if status == "online"}
