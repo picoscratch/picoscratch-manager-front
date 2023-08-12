@@ -3,6 +3,7 @@
 	import "./background-blobs.css";
 	import { onMount } from "svelte";
 	import { SERVER, schooldata } from "./stores";
+	import Spinner from "./Spinner.svelte";
 
 	let code = "";
 	// let loading = true;
@@ -46,7 +47,7 @@
 <div class="content">
 	<h1>PicoScratch Manager</h1>
 	{#if state == "loading"}
-		<p>loading...</p>
+		<Spinner />
 	{:else if state == "error"}
 		<p>Error! Please try again later.</p>
 	{:else}

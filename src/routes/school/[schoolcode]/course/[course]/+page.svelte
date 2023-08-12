@@ -11,6 +11,7 @@
 	import { ws } from "../../../../wsStore";
 	import { schooldata } from "../../../../stores";
 	import ConfirmDialog from "../../../../dialogs/ConfirmDialog.svelte";
+    import Spinner from "../../../../Spinner.svelte";
 
 	/** @type {import('./$types').PageData} */
 	export let data: {props: {course: string}};
@@ -171,7 +172,7 @@
 					<th>Aktionen</th>
 				</tr>
 				{#if !leaderboard}
-					<p>loading...</p>
+					<Spinner />
 				{:else}
 					{#each leaderboard as user, index}
 						<tr>

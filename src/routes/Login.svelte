@@ -4,6 +4,7 @@
 	import { ws as _ws } from "./wsStore";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation"
+    import Spinner from "./Spinner.svelte";
 	
 	let ws: any;
 	let loading = true;
@@ -27,6 +28,7 @@
 
 	function login() {
 		if(ws == null) return;
+		loading = true;
 		_ws.send({ type: "hi", clientType: "teacher", schoolCode: schoolcode, username, password });
 	}
 
@@ -54,6 +56,7 @@
 
 	$: (() => {
 		if(!(ws.type == "hi")) return;
+		loading = false;
 		if(ws.success == false) {
 			username = "";
 			password = "";
@@ -76,7 +79,7 @@
 <div class="content">
 	<h1>PicoScratch Manager</h1>
 	{#if schooldata == undefined || ws == undefined || loading}
-		<p>loading...</p>
+		<Spinner />
 	{:else}
 		<h2>{schooldata.name}</h2>
 		<input type="text" id="username" contenteditable placeholder="Benutzername" bind:value={username} style="margin-bottom: 5px;">
