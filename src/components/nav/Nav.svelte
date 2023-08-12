@@ -1,7 +1,7 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import NavItem from "./NavItem.svelte";
-  import { myProfile, schooldata, navPosition } from "../stores";
+  import { myProfile, schooldata, navPosition } from "../../stores/stores";
   import { onDestroy } from "svelte";
   import SettingsIcon from "svelte-fluentui-icons/icons/Settings_Filled.svelte";
   import SignOutIcon from "svelte-fluentui-icons/icons/SignOut_Filled.svelte";

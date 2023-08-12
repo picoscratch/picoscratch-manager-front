@@ -1,8 +1,8 @@
 <script>
 	import logo from '$lib/images/picoscratch-large.png';
   import NavIcon from "svelte-fluentui-icons/icons/Navigation_Filled.svelte";
-	import Profile from './Profile.svelte';
-	import { myProfile, navPosition, schooldata } from './stores';
+	import Profile from '$components/Profile.svelte';
+	import { myProfile, navPosition, schooldata } from '$stores/stores';
 	import { capFirstLetter } from './utils';
 </script>
 

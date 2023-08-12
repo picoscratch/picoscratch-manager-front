@@ -1,6 +1,6 @@
 import { get } from "svelte/store";
-import { ws, sock } from "../../../../wsStore";
-import { loggedIn } from "../../../../stores";
+import { ws, sock } from "$stores/wsStore";
+import { loggedIn } from "$stores/stores";
 
 export const prerender = false;
 export const ssr = false;

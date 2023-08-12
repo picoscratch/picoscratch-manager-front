@@ -3,8 +3,8 @@
 	import "../background-blobs.css";
 	import picoscratch_logo from "$lib/images/picoscratch-large.png";
 	import { Turnstile } from "svelte-turnstile";
-	import Spinner from "../Spinner.svelte";
-    import { SERVER } from "../stores";
+	import Spinner from "$components/Spinner.svelte";
+	import { SERVER } from "$stores/stores";
 
 	let schoolname: string;
 	let password: string;

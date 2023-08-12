@@ -1,6 +1,6 @@
 import {browser} from '$app/environment';
 import { get, writable } from "svelte/store";
-import { WS_SERVER, schooldata } from "./stores.js";
+import { WS_SERVER, schooldata } from "../stores/stores.js";
 
 // export const ws = writable();
 const messageStore = writable({});

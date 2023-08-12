@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { page } from "$app/stores";
-	import Card from "../../../../Card.svelte";
-	import Profile from "../../../../Profile.svelte";
+	import Card from "$components/Card.svelte";
+	import Profile from "$components/Profile.svelte";
 	import PersonKick from "svelte-fluentui-icons/icons/PersonArrowRight_Filled.svelte";
 	import PersonDelete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
 	import PersonVerify from "svelte-fluentui-icons/icons/Checkmark_Filled.svelte";
 	import Dismiss from "svelte-fluentui-icons/icons/Dismiss_Filled.svelte";
 	import CSVIcon from "svelte-fluentui-icons/icons/DocumentTable_Filled.svelte";
 	import NewIcon from "svelte-fluentui-icons/icons/New_Filled.svelte";
-	import { ws } from "../../../../wsStore";
-	import { schooldata } from "../../../../stores";
-	import ConfirmDialog from "../../../../dialogs/ConfirmDialog.svelte";
-    import Spinner from "../../../../Spinner.svelte";
+	import { ws } from "$stores/wsStore";
+	import { schooldata } from "$stores/stores";
+	import ConfirmDialog from "$components/dialogs/ConfirmDialog.svelte";
+	import Spinner from "$components/Spinner.svelte";
 
 	/** @type {import('./$types').PageData} */
 	export let data: {props: {course: string}};

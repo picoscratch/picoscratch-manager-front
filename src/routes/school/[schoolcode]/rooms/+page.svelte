@@ -1,11 +1,11 @@
 <script lang="ts">
-  import Card from "../../../Card.svelte";
+  import Card from "$components/Card.svelte";
 	import Add_Filled from "svelte-fluentui-icons/icons/Add_Filled.svelte";
 	import Delete from "svelte-fluentui-icons/icons/Delete_Filled.svelte";
-	import { myProfile, schooldata } from "../../../stores";
-	import { ws } from "../../../wsStore";
-	import PromptDialog from "../../../dialogs/PromptDialog.svelte";
-	import ConfirmDialog from "../../../dialogs/ConfirmDialog.svelte";
+	import { myProfile, schooldata } from "$stores/stores";
+	import { ws } from "$stores/wsStore";
+	import PromptDialog from "$components/dialogs/PromptDialog.svelte";
+	import ConfirmDialog from "$components/dialogs/ConfirmDialog.svelte";
 	import { get } from "svelte/store";
 
 	let prompt: PromptDialog;

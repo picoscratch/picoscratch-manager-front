@@ -1,10 +1,10 @@
 <script lang="ts" type="module">
 	import { onDestroy, onMount } from "svelte";
-	import { SERVER, schooldata as _schooldata, loggedIn, myProfile } from "./stores";
-	import { ws as _ws } from "./wsStore";
+	import { SERVER, schooldata as _schooldata, loggedIn, myProfile } from "$stores/stores";
+	import { ws as _ws } from "$stores/wsStore";
 	import { page } from "$app/stores";
 	import { goto } from "$app/navigation"
-    import Spinner from "./Spinner.svelte";
+	import Spinner from "$components/Spinner.svelte";
 	
 	let ws: any;
 	let loading = true;

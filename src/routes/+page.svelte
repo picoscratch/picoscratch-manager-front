@@ -2,8 +2,8 @@
 	import './styles.css';
 	import "./background-blobs.css";
 	import { onMount } from "svelte";
-	import { SERVER, schooldata } from "./stores";
-	import Spinner from "./Spinner.svelte";
+	import { SERVER, schooldata } from "$stores/stores";
+	import Spinner from "$components/Spinner.svelte";
 
 	let code = "";
 	// let loading = true;

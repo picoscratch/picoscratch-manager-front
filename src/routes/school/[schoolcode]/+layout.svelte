@@ -1,11 +1,11 @@
 <script>
-	import Header from '../../Header.svelte';
-  import Nav from "../../nav/Nav.svelte";
-	import '../../styles.css';
+	import Header from '$routes/Header.svelte';
+  import Nav from "$components/nav/Nav.svelte";
+	import '$routes/styles.css';
 	import { page } from '$app/stores';
-	import { loggedIn as _loggedIn } from "../../stores";
+	import { loggedIn as _loggedIn } from "$stores/stores";
   import { onDestroy, onMount } from "svelte";
-  import Login from '../../Login.svelte';
+  import Login from '$routes/Login.svelte';
 
   let loggedIn = false;
 

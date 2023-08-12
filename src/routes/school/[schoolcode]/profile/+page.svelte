@@ -1,6 +1,6 @@
 <script>
-	import Card from "../../../Card.svelte";
-	import { ws } from "../../../wsStore";
+	import Card from "$components/Card.svelte";
+	import { ws } from "$stores/wsStore";
 </script>
 
 <svelte:head>
