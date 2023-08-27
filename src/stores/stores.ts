@@ -18,10 +18,10 @@ import { writable } from "svelte/store";
 
 export const navPosition = writable("open");
 export const loggedIn = writable(false);
-// export const SERVER = "https://server.picoscratch.de/api/";
-// export const WS_SERVER = "wss://server.picoscratch.de";
-export const SERVER = "http://localhost:8080/api/";
-export const WS_SERVER = "ws://localhost:8080";
+export const SERVER = "https://server.picoscratch.de/api/";
+export const WS_SERVER = "wss://server.picoscratch.de";
+// export const SERVER = "http://localhost:8080/api/";
+// export const WS_SERVER = "ws://localhost:8080";
 export const ROOT = "/";
 export const schooldata = writable({
 	channel: "",
