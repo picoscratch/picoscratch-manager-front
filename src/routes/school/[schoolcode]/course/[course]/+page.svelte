@@ -8,10 +8,12 @@
 	import Dismiss from "svelte-fluentui-icons/icons/Dismiss_Filled.svelte";
 	import CSVIcon from "svelte-fluentui-icons/icons/DocumentTable_Filled.svelte";
 	import NewIcon from "svelte-fluentui-icons/icons/New_Filled.svelte";
+	import SettingsIcon from "svelte-fluentui-icons/icons/Settings_Filled.svelte";
 	import { ws } from "$stores/wsStore";
 	import { schooldata } from "$stores/stores";
 	import ConfirmDialog from "$components/dialogs/ConfirmDialog.svelte";
 	import Spinner from "$components/Spinner.svelte";
+    import Dialog from "$components/dialogs/Dialog.svelte";
 
 	/** @type {import('./$types').PageData} */
 	export let data: {props: {course: string}};
@@ -23,7 +25,10 @@
 	let coursedata = $schooldata.courses.find((c: {uuid: string}) => c.uuid == courseUUID);
 	let leaderboard: [{level: number, name: string, percentage: number, status: "offline" | "idle" | "online", uuid: string}];
 	let verifications: [{name: string, uuid: string}];
+	let tasks = [];
 	let confirm: ConfirmDialog;
+	let settingsShown = false;
+	let tasksShown = false;
 	$: courseUUID = data.props.course;
 	$: coursedata = $schooldata.courses.find((c: {uuid: string}) => c.uuid == courseUUID);
 
@@ -36,6 +41,8 @@
 			if(data.course.uuid == courseUUID) leaderboard = data.leaderboard;
 		} else if(data.type == "verifications") {
 			verifications = data.verifications;
+		} else if(data.type == "getTasks") {
+			tasks = data.tasks;
 		}
 	}
 </script>
@@ -45,6 +52,53 @@
 </svelte:head>
 
 <ConfirmDialog bind:this={confirm} />
+
+<Dialog bind:showDialog={settingsShown}>
+	<div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
+		<h2 style="margin: 0; font-size: 2rem; text-align: center;">Einstellungen für {coursedata.name}</h2>
+		<div style="display: flex; gap: 10px;">
+			<button on:click={() => {
+				ws.send({ type: "allowRegister", course: courseUUID, allow: !(coursedata?.allowRegister) });
+			}}>Registr. {coursedata?.allowRegister ? "aktiviert" : "deaktiviert"}</button>
+			<button on:click={() => {
+				if(coursedata?.maxLevel == -1) {
+					ws.send({ type: "getTasks" });
+					tasksShown = true;
+				} else {
+					ws.send({ type: "maxLevel", course: courseUUID, maxSection: -1, maxLevel: -1 })
+				}
+			}}>Max. Level {coursedata?.maxLevel == -1 ? "setzen" : "entfernen"}</button>
+		</div>
+		<button on:click={() => {
+			settingsShown = false;
+		}}>Schließen</button>
+	</div>
+</Dialog>
+
+<Dialog bind:showDialog={tasksShown}>
+	<div style="display: flex; align-items: center; flex-direction: column; gap: 10px;">
+		<h2 style="margin: 0; font-size: 2rem; text-align: center;">Max. Level setzen für {coursedata.name}</h2>
+		<div style="display: flex; gap: 10px; flex-direction: column; overflow: scroll;">
+			<!-- [{ name, desc, img, tasks: [{ name, desc }] }] -->
+			{#each tasks as section, secidx}
+				{#each section.tasks as task, taskidx}
+					<button on:click={() => {
+						ws.send({ type: "maxLevel", course: courseUUID, maxSection: secidx, maxLevel: taskidx });
+						tasksShown = false;
+					}}>{section.name} &gt; {task.name}</button>
+				{/each}
+			{/each}
+		</div>
+		<div style="display: flex; gap: 10px;">
+			<button on:click={() => {
+				tasksShown = false;
+			}}>Abbrechen</button>
+			<button on:click={() => {
+				tasksShown = false;
+			}}>OK</button>
+		</div>
+	</div>
+</Dialog>
 
 <!-- <h3>Dies ist das Interface für den Kurs mit der UUID "{$page.params.course}"</h3> -->
 <div style="display: flex; gap: 10px; flex-direction: column;">
@@ -69,8 +123,10 @@
 					})
 				}}>Stop</button>
 				<button on:click={() => {
-					ws.send({ type: "allowRegister", course: courseUUID, allow: !(coursedata?.allowRegister) });
-				}}>Registr. {coursedata?.allowRegister ? "aktiviert" : "deaktiviert"}</button>
+					settingsShown = true;
+				}}>
+					<SettingsIcon size=40 />
+				</button>
 			</div>
 		</Card>
 		<Card>

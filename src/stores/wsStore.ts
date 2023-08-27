@@ -69,6 +69,16 @@ if(browser) {
 					return c;
 				});
 				schooldata.set(sdata);
+			} else if(packet.type == "maxLevel") {
+				const sdata = get(schooldata);
+				sdata.courses = sdata.courses.map((c) => {
+					if(c.uuid == packet.course) {
+						c.maxSection = packet.maxSection;
+						c.maxLevel = packet.maxLevel;
+					}
+					return c;
+				});
+				schooldata.set(sdata);
 			}
 			messageStore.set(packet);
 		} catch(e) {
