@@ -6,6 +6,7 @@
 	import { loggedIn as _loggedIn } from "$stores/stores";
   import { onDestroy, onMount } from "svelte";
   import Login from '$routes/Login.svelte';
+	import { onNavigate } from '$app/navigation';
 
   let loggedIn = false;
 
@@ -28,6 +29,17 @@
 			_loggedIn.set(false);
 		}
 	})
+
+	onNavigate((navigation) => {
+		if(!document.startViewTransition) return;
+
+		return new Promise((resolve) => {
+			document.startViewTransition(async () => {
+				resolve();
+				await navigation.complete;
+			});
+		});
+	});
 </script>
 
 <svelte:head>
@@ -73,6 +85,7 @@
 		box-sizing: border-box;
 		height: 90vh;
 		overflow-y: scroll;
+		view-transition-name: content;
 	}
 
   .content {

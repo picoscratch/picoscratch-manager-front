@@ -129,6 +129,7 @@
     height: 85vh;
     animation: slideIn 800ms forwards ease-in-out;
     z-index: 999;
+    view-transition-name: nav;
   }
 
   #nav-bottom {

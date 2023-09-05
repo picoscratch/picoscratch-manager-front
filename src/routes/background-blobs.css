@@ -27,11 +27,15 @@ html::after {
 html::before {
 	top: -60vh;
 	left: -60vw;
+
+	view-transition-name: bg-blob-1;
 }
 
 html::after {
 	bottom: -60vh;
 	right: -60vw;
+
+	view-transition-name: bg-blob-2;
 }
 
 @media (max-width: 600px) {
