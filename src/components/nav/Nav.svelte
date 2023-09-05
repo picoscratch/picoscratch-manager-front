@@ -9,6 +9,8 @@
   import PeopleTeamIcon from "svelte-fluentui-icons/icons/PeopleTeam_Filled.svelte";
   import RoomIcon from "svelte-fluentui-icons/icons/ConferenceRoom_Filled.svelte";
   import HatGraduationIcon from "svelte-fluentui-icons/icons/HatGraduation_Filled.svelte";
+  import CodeIcon from "svelte-fluentui-icons/icons/Code_Filled.svelte";
+  import BeakerIcon from "svelte-fluentui-icons/icons/Beaker_Filled.svelte";
   let isAdmin = false;
   // let navPosition = "open";
   $: {
@@ -88,7 +90,11 @@
   </NavItem>
   {#if schooldata != undefined}
     {#each $schooldata.courses as course}
-      <NavItem arrow={true} text={course.name} url={"course/" + course.uuid} prefetch={false} />
+      <NavItem arrow={true} url={"course/" + course.uuid} prefetch={false}>
+        <CodeIcon />
+        <!-- <BeakerIcon /> -->
+        {course.name}
+      </NavItem>
     {/each}
   {/if}
   <!-- div is used to get the navitems after it to the bottom -->
