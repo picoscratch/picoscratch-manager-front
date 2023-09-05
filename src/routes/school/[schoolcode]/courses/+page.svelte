@@ -20,8 +20,8 @@
   let codingSelected = true;
   let chemistrySelected = false;
 
-  function createNewCourse(name) {
-    ws.send({type: "addCourse", name});
+  function createNewCourse(name: string, type: "coding" | "chemistry") {
+    ws.send({type: "addCourse", name, courseType: type});
   }
 </script>
 
@@ -35,7 +35,7 @@
 		<input type="text" placeholder="Kursname" bind:this={newCourseNameInput} required on:keyup={(e) => {
 			if(e.key === "Enter") {
         // Submit
-        createNewCourse(newCourseNameInput.value);
+        createNewCourse(newCourseNameInput.value, codingSelected ? "coding" : "chemistry");
         newCourseNameInput.value = "";
         newCourseDialogShown = false;
       }
@@ -58,7 +58,7 @@
     </Selector>
 		<div style="display: flex; gap: 10px;">
 			<button on:click={() => {
-        createNewCourse(newCourseNameInput.value);
+        createNewCourse(newCourseNameInput.value, codingSelected ? "coding" : "chemistry");
         newCourseNameInput.value = "";
         newCourseDialogShown = false;
       }}>OK</button>
@@ -77,7 +77,14 @@
 <div>
 	{#each $schooldata.courses as course}
 		<Card>
-			<h2 style="margin: 0; font-size: 1.9rem;">{course.name}</h2>
+			<h2 style="margin: 0; font-size: 1.9rem; display: flex; align-items: center; gap: 5px;">
+				{#if course.courseType == "coding"}
+					<CodeIcon size="30" />
+				{:else}
+					<BeakerIcon size="30" />
+				{/if}
+				{course.name}
+			</h2>
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
 					<button on:click={async () => {
