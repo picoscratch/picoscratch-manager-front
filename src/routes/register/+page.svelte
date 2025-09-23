@@ -84,6 +84,7 @@
 		<div style="display: flex; flex-direction: column; gap: 10px; align-items: center;" class="finished">
 			<h2 style="margin: 0;">Willkommen bei PicoScratch!</h2>
 			<span>Ihr Schulcode lautet <span class="code">{code}</span>, bitte schreiben Sie sich den Code auf.</span>
+			<span><ul>Ihr angegebenes Passwort gilt für den "admin" Benutzer.</ul></span>
 			<a href="../school/{code}">
 				<button>Zum PicoScratch Manager</button>
 			</a>
