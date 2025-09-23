@@ -91,11 +91,8 @@
   {#if schooldata != undefined}
     {#each $schooldata.courses as course}
       <NavItem arrow={true} url={"course/" + course.uuid} prefetch={false}>
-        {#if course.courseType == "coding"}
-          <CodeIcon />
-        {:else}
-          <BeakerIcon />
-        {/if}
+        <CodeIcon />
+        <!-- <BeakerIcon /> -->
         {course.name}
       </NavItem>
     {/each}
