@@ -4,6 +4,7 @@
 	import Profile from '$components/Profile.svelte';
 	import { myProfile, navPosition, schooldata } from '$stores/stores';
 	import { capFirstLetter } from './utils';
+    import { m } from '../paraglide/messages';
 </script>
 
 <header>
@@ -28,7 +29,7 @@
 
 	<div id="user">
 		<Profile username={capFirstLetter($myProfile.username.toLowerCase())} smallText />
-		<h3>{$myProfile.username.toLowerCase() == "admin" ? "Admin" : "Lehrer"}</h3>
+		<h3>{$myProfile.username.toLowerCase() == "admin" ? m.admin() : m.teacher()}</h3>
 	</div>
 </header>
 

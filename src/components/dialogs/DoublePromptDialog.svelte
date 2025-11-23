@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { m } from "../../paraglide/messages";
 	import Dialog from "./Dialog.svelte";
 
 	type prompt = (title: string, { placeholder, value, submit, cancel }?: { placeholder?: string | undefined; value?: string | undefined; submit?: string | undefined; cancel?: string | undefined; }) => Promise<string | null>;
@@ -15,8 +16,8 @@
 	let type2 = "text";
 	let input2: HTMLInputElement;
 
-	let submit = "OK";
-	let cancel = "Abbrechen";
+	let submit = m.ok();
+	let cancel = m.cancel();
 	let showDialog = false;
 	let resolve: (value: [string, string] | null) => void;
 
@@ -32,12 +33,12 @@
 			placeholder2?: string,
 			value2?: string,
 			type2?: "text" | "password"
-		} = {placeholder1: "", value1: "", submit: "OK", cancel: "Abbrechen", type1: "text", placeholder2: "", value2: "", type2: "text"}): Promise<[string, string] | null> {
+		} = {placeholder1: "", value1: "", submit: m.ok(), cancel: m.cancel(), type1: "text", placeholder2: "", value2: "", type2: "text"}): Promise<[string, string] | null> {
 		return new Promise((res) => {
 			if(!_placeholder1) _placeholder1 = "";
 			if(!_value1) _value1 = "";
-			if(!_submit) _submit = "OK";
-			if(!_cancel) _cancel = "Abbrechen";
+			if(!_submit) _submit = m.ok();
+			if(!_cancel) _cancel = m.cancel();
 			if(!_type1) _type1 = "text";
 			if(!_placeholder2) _placeholder2 = "";
 			if(!_value2) _value2 = "";

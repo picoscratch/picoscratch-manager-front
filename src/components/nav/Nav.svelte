@@ -9,6 +9,8 @@
   import PeopleTeamIcon from "svelte-fluentui-icons/icons/PeopleTeam_Filled.svelte";
   import RoomIcon from "svelte-fluentui-icons/icons/ConferenceRoom_Filled.svelte";
   import HatGraduationIcon from "svelte-fluentui-icons/icons/HatGraduation_Filled.svelte";
+    import { getLocale, setLocale } from "../../paraglide/runtime";
+    import { m } from "../../paraglide/messages";
   let isAdmin = false;
   // let navPosition = "open";
   $: {
@@ -76,15 +78,15 @@
   {/each} -->
   <NavItem url="teachers">
     <PeopleTeamIcon />
-    Lehrer
+    {m.nav_teachers()}
   </NavItem>
   <NavItem url="rooms">
     <RoomIcon />
-    Räume
+    {m.nav_rooms()}
   </NavItem>
   <NavItem url="courses">
     <HatGraduationIcon />
-    Kurse
+    {m.nav_courses()}
   </NavItem>
   {#if schooldata != undefined}
     {#each $schooldata.courses as course}
@@ -93,17 +95,24 @@
   {/if}
   <!-- div is used to get the navitems after it to the bottom -->
   <div id="nav-bottom"></div>
+	<select style="width: 100%; font-size: 1.3rem; margin-bottom: 10px;" value={getLocale()} on:change={(e) => {
+		// @ts-expect-error todo
+		setLocale(e.target.value);
+	}}>
+		<option value="de">Deutsch</option>
+		<option value="en">English</option>
+	</select>
   <NavItem url="profile">
     <PersonIcon />
-    Profil
+    {m.nav_profile()}
   </NavItem>
-  <NavItem url="settings">
+  <!-- <NavItem url="settings">
     <SettingsIcon />
-    Einstellungen
-  </NavItem>
+    {m.nav_settings()}
+  </NavItem> -->
   <NavItem url="logout">
     <SignOutIcon />
-    Abmelden
+    {m.nav_logout()}
   </NavItem>
 </div>
 

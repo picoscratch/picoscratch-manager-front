@@ -7,13 +7,14 @@
 	import { ws } from "$stores/wsStore";
 	import PromptDialog from "$components/dialogs/PromptDialog.svelte";
 	import ConfirmDialog from "$components/dialogs/ConfirmDialog.svelte";
+    import { m } from "../../../../paraglide/messages";
 
 	let prompt: PromptDialog;
 	let confirm: ConfirmDialog;
 </script>
 
 <svelte:head>
-	<title>PicoScratch Manager | Kurse</title>
+		<title>PicoScratch Manager | {m.nav_courses()}</title>
 </svelte:head>
 
 <PromptDialog bind:this={prompt} />
@@ -26,14 +27,14 @@
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
 					<button on:click={async () => {
-						const newName = await prompt.prompt("Kurs " + course.name + " umbennenen", { value: course.name, placeholder: "Kursname" });
+						const newName = await prompt.prompt(m.course_rename({ course: course.name }), { value: course.name, placeholder: m.coursename() });
 						if(!newName) return;
 						ws.send({ type: "renameCourse", uuid: course.uuid, name: newName })
 					}}>
 						<ChangeName size="40" />
 					</button>
 					<button on:click={async () => {
-						if(!await confirm.confirm("Soll der Kurs wirklich gelöscht werden?")) return;
+						if(!await confirm.confirm(m.course_delete_confirm({ course: course.name }), { subtext: m.course_delete_confirm_subtext() })) return;
 						ws.send({ type: "deleteCourse", uuid: course.uuid })
 					}}>
 						<Delete size="40" color="#A03030" />
@@ -52,7 +53,7 @@
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
 				<button on:click={async () => {
-					const name = await prompt.prompt("Neuen Kurs erstellen", { placeholder: "Kursname" });
+					const name = await prompt.prompt(m.course_new(), { placeholder: m.coursename() });
 					if(!name) return;
 					ws.send({ type: "addCourse", name });
 				}}>

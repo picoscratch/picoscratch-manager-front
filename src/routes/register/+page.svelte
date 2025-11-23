@@ -5,6 +5,8 @@
 	import { Turnstile } from "svelte-turnstile";
 	import Spinner from "$components/Spinner.svelte";
 	import { SERVER } from "$stores/stores";
+	import { m } from "../../paraglide/messages";
+    import { getLocale, setLocale } from "../../paraglide/runtime";
 
 	let schoolname: string;
 	let password: string;
@@ -14,26 +16,33 @@
 </script>
 
 <svelte:head>
-	<title>PicoScratch Demo registrieren</title>
-	<meta name="description" content="Eine PicoScratch Demoversion registrieren um PicoScratch für Ihre Schule kostenlos auszuprobieren" />
+	<title>{m.demo_title()}</title>
+	<meta name="description" content={m.demo_description()} />
 </svelte:head>
 
 <div style="display: flex; align-items: center; flex-direction: column;">
 	<img src={picoscratch_logo} alt="PicoScratch Logo" width="400rem" style="margin: 20px; border-radius: 10px;" class="logo">
 	{#if state == "form" || state == "loading"}
+		<select value={getLocale()} on:change={(e) => {
+			// @ts-expect-error todo
+			setLocale(e.target.value);
+		}}>
+			<option value="de">Deutsch</option>
+			<option value="en">English</option>
+		</select>
 		<div class="forms">
 			<div class="form">
-				<h2>Wie heißt Ihre Schule?</h2>
-				<span>Dies kann später NICHT geändert werden!</span>
+				<h2>{m.demo_schoolname()}</h2>
+				<span>{m.demo_schoolname_subtext()}</span>
 				<input type="text" bind:value={schoolname} disabled={state == "loading"}>
 			</div>
 			<div class="form">
-				<h2>Adminpasswort setzen</h2>
-				<span>Dies kann später wieder geändert werden.</span>
+				<h2>{m.demo_admin()}</h2>
+				<span>{m.demo_admin_subtext()}</span>
 				<input type="password" bind:value={password} disabled={state == "loading"}>
 			</div>
 			<div class="form">
-				<h2>Sicherheitscheck!</h2>
+				<h2>{m.demo_captcha()}</h2>
 				<Turnstile siteKey="0x4AAAAAAAIMlCCSCgEWr8BD" theme="dark" on:turnstile-callback={(e) => {
 					cf_token = e.detail.token;
 				}} class="ts" />
@@ -42,7 +51,7 @@
 				{#if state == "loading"}
 					<h3 style="display: flex; justify-content: center; gap: 10px;">
 						<Spinner />
-						<span>Schule wird eingerichtet...</span>
+						<span>{m.demo_loading()}</span>
 					</h3>
 				{:else}
 					<button on:click={async () => {
@@ -55,7 +64,7 @@
 							body: JSON.stringify({
 								schoolname,
 								password,
-								lang: "de",
+								lang: getLocale(),
 								"cf-turnstile-response": cf_token
 							})
 						}).then(res => res.json());
@@ -63,30 +72,30 @@
 						if(res.error) {
 							state = "form";
 							if(res.error == "Invalid captcha") {
-								alert("Bitte lösen Sie den Sicherheitscheck!");
+								alert(m.demo_solve_captcha());
 							} else {
 								alert(res.error);
 							}
 							return;
 						}
 						if(!res.code) {
-							alert("Es ist ein Fehler aufgetreten!");
+							alert(m.demo_error());
 							state = "form";
 							return;
 						}
 						code = res.code;
 						state = "finished";
-					}}>Schule erstellen</button>
+					}}>{m.demo_register()}</button>
 				{/if}
 			</div>
 		</div>
 	{:else}
 		<div style="display: flex; flex-direction: column; gap: 10px; align-items: center;" class="finished">
-			<h2 style="margin: 0;">Willkommen bei PicoScratch!</h2>
-			<span>Ihr Schulcode lautet <span class="code">{code}</span>, bitte schreiben Sie sich den Code auf.</span>
-			<span><ul>Ihr angegebenes Passwort gilt für den "admin" Benutzer.</ul></span>
+			<h2 style="margin: 0;">{m.demo_welcome()}</h2>
+			<span>{m.demo_welcome_subtext({ code })}</span>
+			<span><ul>{m.demo_welcome_subtext_2()}</ul></span>
 			<a href="../school/{code}">
-				<button>Zum PicoScratch Manager</button>
+				<button>{m.demo_go_to_manager()}</button>
 			</a>
 		</div>
 	{/if}

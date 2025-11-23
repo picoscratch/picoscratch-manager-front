@@ -1,12 +1,13 @@
 <script lang="ts">
+    import { m } from "../../paraglide/messages";
 	import Dialog from "./Dialog.svelte";
 
 	type confirm = (title: string, { placeholder, value, submit, cancel }?: { placeholder?: string | undefined; value?: string | undefined; submit?: string | undefined; cancel?: string | undefined; }) => Promise<string | null>;
 
 	let title = "Confirm Dialog";
 	let subtext = "";
-	let confirmText = "OK";
-	let cancel = "Abbrechen";
+	let confirmText = m.ok();
+	let cancel = m.cancel();
 	let showDialog = false;
 	let resolve: (value: boolean) => void;
 
@@ -17,11 +18,11 @@
 			subtext?: string,
 			confirm?: string,
 			cancel?: string,
-		} = {subtext: "", confirm: "OK", cancel: "Abbrechen"}) {
+		} = {subtext: "", confirm: m.ok(), cancel: m.cancel()}) {
 		return new Promise((res) => {
 			if(!_subtext) _subtext = "";
-			if(!_confirm) _confirm = "OK";
-			if(!_cancel) _cancel = "Abbrechen";
+			if(!_confirm) _confirm = m.ok();
+			if(!_cancel) _cancel = m.cancel();
 			title = _title;
 			subtext = _subtext;
 			confirmText = _confirm;

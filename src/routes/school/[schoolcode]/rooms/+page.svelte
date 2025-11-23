@@ -7,6 +7,7 @@
 	import PromptDialog from "$components/dialogs/PromptDialog.svelte";
 	import ConfirmDialog from "$components/dialogs/ConfirmDialog.svelte";
 	import { get } from "svelte/store";
+    import { m } from "../../../../paraglide/messages";
 
 	let prompt: PromptDialog;
 	let confirm: ConfirmDialog;
@@ -30,7 +31,7 @@
 </script>
 
 <svelte:head>
-	<title>PicoScratch Manager | Räume</title>
+	<title>PicoScratch Manager | {m.nav_rooms()}</title>
 </svelte:head>
 
 <PromptDialog bind:this={prompt} />
@@ -43,7 +44,7 @@
 			<select on:change={(e) => {
 				selectChange(e, room);
 			}} value={room.courseUuid || "nocourse"}>
-				<option value="nocourse">Kein Kurs</option>
+				<option value="nocourse">{m.no_course()}</option>
 				{#each $schooldata.courses as course}
 					<option value={course.uuid}>{course.name}</option>
 				{/each}
@@ -51,7 +52,7 @@
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
 					<button on:click={async () => {
-						if(!await confirm.confirm("Soll der Raum wirklich gelöscht werden?")) return;
+						if(!await confirm.confirm(m.room_delete_confirm({ room: room.name }), { subtext: m.room_delete_confirm_subtext() })) return;
 						ws.send({ type: "deleteRoom", uuid: room.uuid })
 					}}>
 						<Delete size="40" color="#A03030" />
@@ -70,7 +71,7 @@
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
 				<button on:click={async () => {
-					const newRoom = await prompt.prompt("Neuen Raum erstellen", { placeholder: "PC Raum" });
+					const newRoom = await prompt.prompt(m.room_new(), { placeholder: m.room_new_placeholder() });
 					if(!newRoom) return;
 					ws.send({ type: "addRoom", name: newRoom });
 				}}>

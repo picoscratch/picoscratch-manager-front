@@ -9,6 +9,7 @@
 	import PromptDialog from "$components/dialogs/PromptDialog.svelte";
 	import ConfirmDialog from "$components/dialogs/ConfirmDialog.svelte";
 	import DoublePromptDialog from "$components/dialogs/DoublePromptDialog.svelte";
+    import { m } from "../../../../paraglide/messages";
 
 	let prompt: PromptDialog;
 	let prompt2: DoublePromptDialog;
@@ -26,7 +27,7 @@
 </script>
 
 <svelte:head>
-	<title>PicoScratch Manager | Lehrer</title>
+	<title>PicoScratch Manager | {m.nav_teachers()}</title>
 </svelte:head>
 
 <PromptDialog bind:this={prompt} />
@@ -40,14 +41,14 @@
 			{#if $myProfile.username.toLowerCase() == "admin"}
 				<div style="margin-top: 5px; display: flex; justify-content: center;">
 					<button on:click={async () => {
-						const newPw = await prompt.prompt("Passwort für " + teacher.name + " ändern", { placeholder: "Passwort", type: "password" });
+						const newPw = await prompt.prompt(m.teacher_change_password({ teacher: teacher.name }), { placeholder: m.password(), type: "password" });
 						if(!newPw) return;
 						ws.send({ type: "changeTeacherPassword", uuid: teacher.uuid, password: newPw })
 					}}>
 						<ChangePassword size="40" />
 					</button>
 					<button on:click={async () => {
-						if(!await confirm.confirm("Soll der Lehrer wirklich gelöscht werden?", { subtext: "Dies kann nicht rückgängig gemacht werden!" })) return;
+						if(!await confirm.confirm(m.teacher_delete_confirm({ teacher: teacher.name }), { subtext: m.teacher_delete_confirm_subtext() })) return;
 						ws.send({ type: "deleteTeacher", uuid: teacher.uuid })
 					}}>
 						<Delete size="40" color="#A03030" />
@@ -66,7 +67,7 @@
 		<Card>
 			<div style="display: flex; align-items: center; justify-content: center; height: 100%;">
 				<button on:click={async () => {
-					const newTeacher = await prompt2.prompt("Neuen Lehrer hinzufügen", { placeholder1: "Name", placeholder2: "Passwort", type2: "password" });
+					const newTeacher = await prompt2.prompt(m.teacher_new(), { placeholder1: "Name", placeholder2: m.password(), type2: "password" });
 					if(!newTeacher) return;
 					ws.send({ type: "addTeacher", username: newTeacher[0], password: newTeacher[1] })
 				}}>
