@@ -34,8 +34,9 @@
 			<div class="form">
 				<h2>{m.demo_schoolname()}</h2>
 				<span>{m.demo_schoolname_subtext()}</span>
-				<input type="text" bind:value={schoolname} disabled={state == "loading"}>
+				<input type="text" bind:value={schoolname} disabled={state == "loading"} autocomplete="organization">
 			</div>
+			<input type="text" hidden disabled autocomplete="username" value="Admin">
 			<div class="form">
 				<h2>{m.demo_admin()}</h2>
 				<span>{m.demo_admin_subtext()}</span>
