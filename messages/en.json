@@ -70,5 +70,8 @@
 	"delete_user_confirm_subtext": "The user will be removed from the leaderboard and will have to redo all tasks. This action cannot be undone!",
 
 	"admin": "Admin",
-	"teacher": "Teacher"
+	"teacher": "Teacher",
+
+	"no_students": "No students yet.",
+	"no_students_subtext": "Download PicoScratch Learn on your computers, connect to this school, and start learning!"
 }

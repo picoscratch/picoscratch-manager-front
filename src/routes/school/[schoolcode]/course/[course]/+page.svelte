@@ -201,75 +201,80 @@
 	</div>
 	<div id="leaderboard" style="overflow-y: hidden; max-width: 100vw;">
 		<Card>
-			<div style="display: flex; align-items: center; justify-content: space-between;">
-				<h2 style="margin: 0; font-size: 1.9rem;">{m.leaderboard()}</h2>
-				<button on:click={() => {
-					const csv = [`${m.csv_place()},${m.csv_name()},${m.csv_exercise()},${m.csv_quiz()}`];
-					leaderboard.forEach((user, index) => {
-						csv.push(`${index + 1},${user.name},${user.level},${user.percentage}%`);
-					});
-					// download
-					const blob = new Blob([csv.join("\n")], { type: "text/csv" });
-					const url = window.URL.createObjectURL(blob);
-					const a = document.createElement("a");
-					a.href = url;
-					a.download = coursedata?.name + ".csv";
-					a.click();
-					window.URL.revokeObjectURL(url);
-				}}>
-					<CSVIcon size=40 />
-				</button>
-			</div>
-			<table>
-				<tbody>
-					<tr>
-						<th>{m.csv_place()}</th>
-						<th>{m.csv_name()}</th>
-						<th>{m.csv_exercise()}</th>
-						<th>{m.csv_quiz()}</th>
-						<th>{m.actions()}</th>
-					</tr>
-					{#if !leaderboard}
-						<Spinner />
-					{:else}
-						{#each leaderboard as user, index}
-							<tr>
-								<td>{index + 1}</td>
-								<td>
-									<Profile username={user.name} status={user.status} />
-								</td>
-								<td>{user.level}</td>
-								<td>{user.percentage}%</td>
-								<td>
-									<button title={m.kick_user({ user: user.name })} on:click={() => {
-										ws.send({
-											type: "kick",
-											uuid: user.uuid
-										})
-									}}>
-										<PersonKick size=40 />
-									</button>
-									<button title={m.delete_user({ user: user.name })} on:click={async () => {
-										if(!await confirm.confirm(m.delete_user_confirm({ user: user.name }), { subtext: m.delete_user_confirm_subtext() })) return;
-										ws.send({
-											type: "delete",
-											uuid: user.uuid,
-											courseUUID
-										})
-									}}>
-										<PersonDelete size=40 color="#A03030" />
-									</button>
-									<!-- <button title="{user.name} verifizieren">
-										<PersonVerify on:click={() => {
-											if(!confirm("Are you sure you want to use this failsafe? If the student did not request this, who knows what will happen. The server might crash.")) return;
-											ws.send(JSON.stringify({ type: "verify", uuid: user.uuid, course: courseUUID }));
-										}} size=40 color="#30A030" />
-									</button> -->
-							</tr>
-						{/each}
-					{/if}
-				</tbody>
-			</table>
+			{#if leaderboard.length > 0}
+				<div style="display: flex; align-items: center; justify-content: space-between;">
+					<h2 style="margin: 0; font-size: 1.9rem;">{m.leaderboard()}</h2>
+					<button on:click={() => {
+						const csv = [`${m.csv_place()},${m.csv_name()},${m.csv_exercise()},${m.csv_quiz()}`];
+						leaderboard.forEach((user, index) => {
+							csv.push(`${index + 1},${user.name},${user.level},${user.percentage}%`);
+						});
+						// download
+						const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+						const url = window.URL.createObjectURL(blob);
+						const a = document.createElement("a");
+						a.href = url;
+						a.download = coursedata?.name + ".csv";
+						a.click();
+						window.URL.revokeObjectURL(url);
+					}}>
+						<CSVIcon size=40 />
+					</button>
+				</div>
+				<table>
+					<tbody>
+						<tr>
+							<th>{m.csv_place()}</th>
+							<th>{m.csv_name()}</th>
+							<th>{m.csv_exercise()}</th>
+							<th>{m.csv_quiz()}</th>
+							<th>{m.actions()}</th>
+						</tr>
+						{#if !leaderboard}
+							<Spinner />
+						{:else}
+							{#each leaderboard as user, index}
+								<tr>
+									<td>{index + 1}</td>
+									<td>
+										<Profile username={user.name} status={user.status} />
+									</td>
+									<td>{user.level}</td>
+									<td>{user.percentage}%</td>
+									<td>
+										<button title={m.kick_user({ user: user.name })} on:click={() => {
+											ws.send({
+												type: "kick",
+												uuid: user.uuid
+											})
+										}}>
+											<PersonKick size=40 />
+										</button>
+										<button title={m.delete_user({ user: user.name })} on:click={async () => {
+											if(!await confirm.confirm(m.delete_user_confirm({ user: user.name }), { subtext: m.delete_user_confirm_subtext() })) return;
+											ws.send({
+												type: "delete",
+												uuid: user.uuid,
+												courseUUID
+											})
+										}}>
+											<PersonDelete size=40 color="#A03030" />
+										</button>
+										<!-- <button title="{user.name} verifizieren">
+											<PersonVerify on:click={() => {
+												if(!confirm("Are you sure you want to use this failsafe? If the student did not request this, who knows what will happen. The server might crash.")) return;
+												ws.send(JSON.stringify({ type: "verify", uuid: user.uuid, course: courseUUID }));
+											}} size=40 color="#30A030" />
+										</button> -->
+								</tr>
+							{/each}
+						{/if}
+					</tbody>
+				</table>
+			{:else}
+				<h2 style="margin: 0; font-size: 1.9rem;">{m.no_students()}</h2>
+				<span>{m.no_students_subtext()}</span>
+			{/if}
 		</Card>
 	</div>
 </div>

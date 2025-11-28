@@ -8,7 +8,7 @@
 	
 	let ws: any;
 	let loading = true;
-	let schooldata: { name: string, uuid: string, lang: string } | null;
+	let schooldata: { name: string, uuid: string, lang: string, code: string } | null;
 	let schoolcode = $page.params.schoolcode;
 	$: console.log(schoolcode);
 	$: {
@@ -25,6 +25,7 @@
 
 	let username = "";
 	let password = "";
+	let type = "";
 
 	function login() {
 		if(ws == null) return;
@@ -33,7 +34,8 @@
 	}
 
 	onMount(() => {
-		if(schooldata == null) {
+		console.log("Schooldata: ", schooldata)
+		if(schooldata == null || schooldata.code == "") {
 			fetch(SERVER + "schoolcode/" + schoolcode).then(res => res.json()).then(data => {
 				_schooldata.set(data);
 			}).catch(err => {
@@ -82,10 +84,29 @@
 		<Spinner />
 	{:else}
 		<h2>{schooldata.name}</h2>
-		<input type="text" id="username" contenteditable placeholder="Benutzername" bind:value={username} style="margin-bottom: 5px;">
-		<input type="password" id="password" contenteditable placeholder="Passwort" bind:value={password} on:keyup={(e) => {
-			if(e.key == "Enter") login();
-		}}>
+		{#if type == ""}
+			<button style="width: 280px;" on:click={() => {
+				type = "admin";
+				username = "admin";
+			}}>Administrator</button>
+			<button style="width: 280px;" on:click={() => {
+				type = "teacher";
+				username = "";
+			}}>Teacher</button>
+		{/if}
+		{#if type == "teacher"}
+			<input type="text" id="username" contenteditable placeholder="Name" bind:value={username} style="margin-bottom: 5px; width: 280px;">
+		{/if}
+		{#if type != ""}
+			<input type="password" id="password" contenteditable placeholder="Password" bind:value={password} style="width: 280px;" on:keyup={(e) => {
+				if(e.key == "Enter") login();
+			}}>
+			<button style="width: 280px;" on:click={() => {
+				type = "";
+				username = "";
+				password = "";
+			}}>Back</button>
+		{/if}
 		<div>
 			<button on:click={login} class="btn-primary">Login</button>
 			<button on:click={switchSchool}>Switch school</button>

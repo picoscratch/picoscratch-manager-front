@@ -68,5 +68,7 @@
 	"delete_user_confirm": "Möchten Sie den Schüler {user} wirklich löschen?",
 	"delete_user_confirm_subtext": "Der Schüler wird von der Rangliste entfernt und muss alle Aufgaben erneut machen. Dies kann nicht rückgängig gemacht werden!",
 	"admin": "Admin",
-	"teacher": "Lehrer"
+	"teacher": "Lehrer",
+	"no_students": "Noch keine Schüler.",
+	"no_students_subtext": "Laden Sie PicoScratch Learn auf Ihren Computern herunter, verbinden Sie sich mit dieser Schule und beginnen Sie mit dem Lernen!"
 }
