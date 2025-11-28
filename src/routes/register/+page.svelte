@@ -85,7 +85,7 @@
 						}
 						code = res.code;
 						state = "finished";
-					}}>{m.demo_register()}</button>
+					}} data-rybbit-event="demo_register">{m.demo_register()}</button>
 				{/if}
 			</div>
 		</div>

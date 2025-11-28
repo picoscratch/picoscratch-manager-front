@@ -71,6 +71,14 @@
 			username
 		});
 		localStorage.setItem("username", username);
+		// @ts-expect-error not typed yet
+		if(window.rybbit) {
+			// @ts-expect-error not typed yet
+			window.rybbit.event("login", {
+				school: schooldata.name,
+				username
+			})
+		}
 	})()
 </script>
 <svelte:head>
