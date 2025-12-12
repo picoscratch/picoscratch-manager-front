@@ -237,7 +237,9 @@
 	</div>
 	<div id="leaderboard" style="overflow-y: hidden; max-width: 100vw;">
 		<Card>
-			{#if leaderboard.length > 0}
+			{#if !leaderboard}
+				<Spinner />
+			{:else if leaderboard.length > 0}
 				<div style="display: flex; align-items: center; justify-content: space-between;">
 					<h2 style="margin: 0; font-size: 1.9rem;">{m.leaderboard()}</h2>
 					<button on:click={() => {
