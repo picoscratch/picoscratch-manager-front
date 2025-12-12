@@ -86,7 +86,16 @@
 						}
 						code = res.code;
 						state = "finished";
-					}} data-rybbit-event="demo_register">{m.demo_register()}</button>
+
+						// @ts-expect-error not typed yet
+						if(window.rybbit) {
+							// @ts-expect-error not typed yet
+							window.rybbit.event("demo_register", {
+								school: schoolname,
+								code
+							});
+						}
+					}}>{m.demo_register()}</button>
 				{/if}
 			</div>
 		</div>

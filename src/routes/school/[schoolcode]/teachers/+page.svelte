@@ -70,6 +70,15 @@
 					const newTeacher = await prompt2.prompt(m.teacher_new(), { placeholder1: "Name", placeholder2: m.password(), type2: "password" });
 					if(!newTeacher) return;
 					ws.send({ type: "addTeacher", username: newTeacher[0], password: newTeacher[1] })
+
+					// @ts-expect-error not typed yet
+					if(window.rybbit) {
+						// @ts-expect-error not typed yet
+						window.rybbit.event("add_teacher", {
+							school: $schooldata.name,
+							teacher: newTeacher[0]
+						});
+					}
 				}}>
 					<Add_Filled size="40" />
 				</button>

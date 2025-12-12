@@ -74,6 +74,15 @@
 					const newRoom = await prompt.prompt(m.room_new(), { placeholder: m.room_new_placeholder() });
 					if(!newRoom) return;
 					ws.send({ type: "addRoom", name: newRoom });
+
+					// @ts-expect-error not typed yet
+					if(window.rybbit) {
+						// @ts-expect-error not typed yet
+						window.rybbit.event("add_room", {
+							school: $schooldata.name,
+							room: newRoom
+						});
+					}
 				}}>
 					<Add_Filled size="40" />
 				</button>

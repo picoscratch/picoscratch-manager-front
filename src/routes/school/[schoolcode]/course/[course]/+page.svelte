@@ -112,6 +112,15 @@
 						type: "startCourse",
 						uuid: courseUUID
 					})
+
+					// @ts-expect-error not typed yet
+					if(window.rybbit) {
+						// @ts-expect-error not typed yet
+						window.rybbit.event("start_course", {
+							school: $schooldata.name,
+							course: coursedata?.name
+						});
+					}
 				}}>{m.start()}</button>
 				<button style="display: flex; flex-direction: column; gap: 3px;">
 					<div class="traffic-red traffic {coursedata?.isRunning ? "trafficOff" : ""}"></div>
@@ -122,6 +131,15 @@
 						type: "stopCourse",
 						uuid: courseUUID
 					})
+
+					// @ts-expect-error not typed yet
+					if(window.rybbit) {
+						// @ts-expect-error not typed yet
+						window.rybbit.event("stop_course", {
+							school: $schooldata.name,
+							course: coursedata?.name
+						});
+					}
 				}}>{m.stop()}</button>
 				<button on:click={() => {
 					settingsShown = true;
@@ -163,11 +181,29 @@
 									const confirmation = await confirm.confirm(verification.name + " aus der Aufgabe rauswerfen?", { subtext: "Der Schüler wird die Aufgabe erneut machen müssen." })
 									if(!confirmation) return;
 									ws.send({ type: "dismiss", uuid: verification.uuid, course: courseUUID });
+
+									// @ts-expect-error not typed yet
+									if(window.rybbit) {
+										// @ts-expect-error not typed yet
+										window.rybbit.event("dismiss_task", {
+											school: $schooldata.name,
+											course: coursedata?.name
+										});
+									}
 								}}>
 									<Dismiss size=40 color="#F55050" />
 								</button>
 								<button on:click={() => {
 									ws.send({ type: "verify", uuid: verification.uuid, course: courseUUID });
+
+									// @ts-expect-error not typed yet
+									if(window.rybbit) {
+										// @ts-expect-error not typed yet
+										window.rybbit.event("verify_task", {
+											school: $schooldata.name,
+											course: coursedata?.name
+										});
+									}
 								}}>
 									<PersonVerify size=40 color="#50F550" />
 								</button>
@@ -247,6 +283,16 @@
 												type: "kick",
 												uuid: user.uuid
 											})
+
+											// @ts-expect-error not typed yet
+											if(window.rybbit) {
+												// @ts-expect-error not typed yet
+												window.rybbit.event("kick_user", {
+													school: $schooldata.name,
+													user: user.name,
+													course: coursedata?.name
+												});
+											}
 										}}>
 											<PersonKick size=40 />
 										</button>
@@ -257,6 +303,16 @@
 												uuid: user.uuid,
 												courseUUID
 											})
+
+											// @ts-expect-error not typed yet
+											if(window.rybbit) {
+												// @ts-expect-error not typed yet
+												window.rybbit.event("delete_user", {
+													school: $schooldata.name,
+													user: user.name,
+													course: coursedata?.name
+												});
+											}
 										}}>
 											<PersonDelete size=40 color="#A03030" />
 										</button>
@@ -266,6 +322,7 @@
 												ws.send(JSON.stringify({ type: "verify", uuid: user.uuid, course: courseUUID }));
 											}} size=40 color="#30A030" />
 										</button> -->
+									</td>
 								</tr>
 							{/each}
 						{/if}

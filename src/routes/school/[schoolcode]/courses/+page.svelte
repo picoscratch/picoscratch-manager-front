@@ -56,6 +56,15 @@
 					const name = await prompt.prompt(m.course_new(), { placeholder: m.coursename() });
 					if(!name) return;
 					ws.send({ type: "addCourse", name });
+
+					// @ts-expect-error not typed yet
+					if(window.rybbit) {
+						// @ts-expect-error not typed yet
+						window.rybbit.event("add_course", {
+							school: $schooldata.name,
+							course: name
+						});
+					}
 				}}>
 					<Add_Filled size="40" />
 				</button>
