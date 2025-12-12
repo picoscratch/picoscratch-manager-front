@@ -289,7 +289,6 @@
 												// @ts-expect-error not typed yet
 												window.rybbit.event("kick_user", {
 													school: $schooldata.name,
-													user: user.name,
 													course: coursedata?.name
 												});
 											}
@@ -309,7 +308,6 @@
 												// @ts-expect-error not typed yet
 												window.rybbit.event("delete_user", {
 													school: $schooldata.name,
-													user: user.name,
 													course: coursedata?.name
 												});
 											}
