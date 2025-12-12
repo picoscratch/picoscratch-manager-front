@@ -22,9 +22,7 @@
 				<NavIcon size=40 />
 			</button>
 		{/if}
-		<a data-sveltekit-reload href="https://server.picoscratch.de/manager?schoolcode={$schooldata.code}" target="_blank">
-			<img src={logo} alt="PicoScratch" />
-		</a>
+		<img src={logo} alt="PicoScratch" />
 	</div>
 
 	<div id="user">
@@ -51,7 +49,7 @@
 
 	.corner {
 		width: 3em;
-		height: 3em;
+		height: 3.5em;
 		margin: 5px;
 	}
 
